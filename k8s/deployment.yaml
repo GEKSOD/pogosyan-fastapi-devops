@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: sharay-fastapi
-          image: docker.io/your-dockerhub-username/sharay-fastapi:latest
+          image: docker.io/geksod/sharay-fastapi:latest
           imagePullPolicy: Always
           env:
             - name: SHARAY_ENVIRONMENT

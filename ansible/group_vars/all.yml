@@ -1,3 +1,3 @@
-docker_image: "your-dockerhub-username/sharay-fastapi:latest"
+docker_image: "geksod/sharay-fastapi:latest"
 app_directory: "/opt/sharay"
 app_environment: "ansible"

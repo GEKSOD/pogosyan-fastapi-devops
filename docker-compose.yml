@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-    image: your-dockerhub-username/sharay-fastapi:latest
+    image: geksod/sharay-fastapi:latest
     container_name: sharay-fastapi
     environment:
       SHARAY_ENVIRONMENT: docker

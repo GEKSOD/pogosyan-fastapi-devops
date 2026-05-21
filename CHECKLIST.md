@@ -41,11 +41,11 @@
 - [x] Добавлен datasource Prometheus для Grafana: `monitoring/grafana/provisioning/datasources/prometheus.yml`.
 - [x] `docker compose config` успешно прошел.
 - [x] Образы Prometheus и Grafana скачаны через Docker.
-- [ ] Docker Compose файл запушен на GitHub.
-- [ ] Dockerfile запушен на GitHub.
-- [ ] Docker-образ запушен на Docker Hub.
+- [x] Docker Compose файл запушен на GitHub.
+- [x] Dockerfile запушен на GitHub.
+- [x] Docker-образ запушен на Docker Hub: `geksod/sharay-fastapi:latest`.
 
-Статус: Docker-часть выполнена локально. Для Docker Hub push нужен твой Docker Hub username и авторизация.
+Статус: Docker-часть выполнена, образ опубликован на Docker Hub.
 
 ## 4. Kubernetes
 
@@ -55,12 +55,12 @@
 - [x] Добавлен deployment: `k8s/deployment.yaml`.
 - [x] Добавлен ingress: `k8s/ingress.yaml`.
 - [x] В deployment указан pull образа из Docker Hub:
-  `docker.io/your-dockerhub-username/sharay-fastapi:latest`.
+  `docker.io/geksod/sharay-fastapi:latest`.
 - [x] YAML-файлы успешно распарсены локальной проверкой.
-- [ ] Манифесты запушены на GitHub.
-- [ ] Docker Hub username заменен на реальный.
+- [x] Манифесты запушены на GitHub.
+- [x] Docker Hub username заменен на реальный.
 
-Статус: манифесты готовы. Нужно заменить `your-dockerhub-username` после выбора Docker Hub аккаунта.
+Статус: манифесты готовы. Указан образ `docker.io/geksod/sharay-fastapi:latest`.
 
 ## 5. Terraform
 
@@ -102,14 +102,14 @@
 
 ## Что осталось сделать для полной сдачи
 
-- [ ] Войти в GitHub.
-- [ ] Создать GitHub-репозиторий.
-- [ ] Добавить remote `origin`.
-- [ ] Запушить ветку `main`.
-- [ ] Войти в Docker Hub.
-- [ ] Заменить `your-dockerhub-username` на реальный username.
-- [ ] Собрать Docker-образ с Docker Hub тегом.
-- [ ] Запушить Docker-образ на Docker Hub.
-- [ ] Обновить k8s/Terraform/Ansible ссылку на реальный Docker Hub image.
+- [x] Войти в GitHub.
+- [x] Создать GitHub-репозиторий.
+- [x] Добавить remote `origin`.
+- [x] Запушить ветку `main`.
+- [x] Войти в Docker Hub.
+- [x] Заменить `your-dockerhub-username` на реальный username.
+- [x] Собрать Docker-образ с Docker Hub тегом.
+- [x] Запушить Docker-образ на Docker Hub.
+- [x] Обновить k8s/Terraform/Ansible ссылку на реальный Docker Hub image.
 - [ ] При необходимости применить Terraform.
 - [ ] При необходимости выполнить Ansible на созданной VM.

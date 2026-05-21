@@ -59,11 +59,11 @@ docker compose up --build
 
 ## Docker Hub
 
-Замените `your-dockerhub-username` на свой логин в Docker Hub:
+Docker Hub username: `geksod`.
 
 ```powershell
-docker build -t your-dockerhub-username/sharay-fastapi:latest .
-docker push your-dockerhub-username/sharay-fastapi:latest
+docker build -t geksod/sharay-fastapi:latest .
+docker push geksod/sharay-fastapi:latest
 ```
 
 Такой же образ указан в `k8s/deployment.yaml`, `terraform/cloud-init.yaml.tftpl` и `ansible/group_vars/all.yml`.
@@ -74,7 +74,7 @@ docker push your-dockerhub-username/sharay-fastapi:latest
 kubectl apply -f k8s/
 ```
 
-Перед применением обновите образ в `k8s/deployment.yaml` на ваш Docker Hub repository.
+В `k8s/deployment.yaml` указан образ `docker.io/geksod/sharay-fastapi:latest`.
 
 ## Terraform
 

@@ -40,5 +40,5 @@ variable "ssh_public_key_path" {
 variable "docker_image" {
   description = "Docker Hub image for the FastAPI service"
   type        = string
-  default     = "your-dockerhub-username/sharay-fastapi:latest"
+  default     = "geksod/sharay-fastapi:latest"
 }
