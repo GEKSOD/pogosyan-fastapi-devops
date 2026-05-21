@@ -1,0 +1,37 @@
+[project]
+name = "sharay-fastapi-devops"
+version = "0.1.0"
+description = "FastAPI DevOps training project with CI, Docker, Kubernetes, Terraform and Ansible"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.124.0",
+    "uvicorn[standard]==0.38.0",
+    "prometheus-client==0.23.1",
+    "pydantic-settings==2.12.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.pylint.main]
+py-version = "3.11"
+load-plugins = []
+
+[tool.pylint.messages_control]
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "too-few-public-methods",
+]
+
+[tool.pylint.format]
+max-line-length = 100

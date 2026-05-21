@@ -1,0 +1,63 @@
+- name: Deploy SHARAY FastAPI service
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Install required packages
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - docker.io
+          - nginx
+        state: present
+        update_cache: true
+
+    - name: Enable Docker and Nginx
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop:
+        - docker
+        - nginx
+
+    - name: Create application directory
+      ansible.builtin.file:
+        path: "{{ app_directory }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Upload Docker Compose file
+      ansible.builtin.template:
+        src: docker-compose.yml.j2
+        dest: "{{ app_directory }}/docker-compose.yml"
+        mode: "0644"
+
+    - name: Upload Nginx reverse proxy config
+      ansible.builtin.template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/sites-available/sharay
+        mode: "0644"
+      notify: Reload nginx
+
+    - name: Enable Nginx site
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/sharay
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+        force: true
+      notify: Reload nginx
+
+    - name: Start application container
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_directory }}"
+        state: present
+
+  handlers:
+    - name: Reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded

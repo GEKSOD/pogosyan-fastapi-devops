@@ -1,0 +1,58 @@
+services:
+  app:
+    build:
+      context: .
+    image: your-dockerhub-username/sharay-fastapi:latest
+    container_name: sharay-fastapi
+    environment:
+      SHARAY_ENVIRONMENT: docker
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - observability
+
+  prometheus:
+    image: prom/prometheus:v3.7.3
+    container_name: sharay-prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      app:
+        condition: service_healthy
+    networks:
+      - observability
+
+  grafana:
+    image: grafana/grafana:12.3.0
+    container_name: sharay-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - observability
+
+volumes:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  observability:
+    driver: bridge
