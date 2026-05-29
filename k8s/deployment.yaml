@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sharay-fastapi
-  namespace: sharay
+  name: pogosyan-fastapi
+  namespace: pogosyan
   labels:
-    app: sharay-fastapi
+    app: pogosyan-fastapi
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sharay-fastapi
+      app: pogosyan-fastapi
   template:
     metadata:
       labels:
-        app: sharay-fastapi
+        app: pogosyan-fastapi
     spec:
       containers:
-        - name: sharay-fastapi
-          image: docker.io/geksod/sharay-fastapi:latest
+        - name: pogosyan-fastapi
+          image: docker.io/geksod/pogosyan-fastapi:latest
           imagePullPolicy: Always
           env:
-            - name: SHARAY_ENVIRONMENT
+            - name: POGOSYAN_ENVIRONMENT
               value: kubernetes
           ports:
             - containerPort: 8000

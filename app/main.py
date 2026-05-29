@@ -4,7 +4,7 @@ from prometheus_client import CONTENT_TYPE_LATEST, Counter, generate_latest
 from app.config import settings
 
 REQUESTS_TOTAL = Counter(
-    "sharay_http_requests_total",
+    "pogosyan_http_requests_total",
     "Total number of HTTP requests handled by the application",
     ["endpoint"],
 )

@@ -1,5 +1,5 @@
 [project]
-name = "sharay-fastapi-devops"
+name = "pogosyan-fastapi-devops"
 version = "0.1.0"
 description = "FastAPI DevOps training project with CI, Docker, Kubernetes, Terraform and Ansible"
 requires-python = ">=3.11"

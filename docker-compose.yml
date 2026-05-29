@@ -1,11 +1,13 @@
+name: pogosyan
+
 services:
   app:
     build:
       context: .
-    image: geksod/sharay-fastapi:latest
-    container_name: sharay-fastapi
+    image: geksod/pogosyan-fastapi:latest
+    container_name: pogosyan-fastapi
     environment:
-      SHARAY_ENVIRONMENT: docker
+      POGOSYAN_ENVIRONMENT: docker
     ports:
       - "8000:8000"
     healthcheck:
@@ -18,7 +20,7 @@ services:
 
   prometheus:
     image: prom/prometheus:v3.7.3
-    container_name: sharay-prometheus
+    container_name: pogosyan-prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
     volumes:
@@ -34,7 +36,7 @@ services:
 
   grafana:
     image: grafana/grafana:12.3.0
-    container_name: sharay-grafana
+    container_name: pogosyan-grafana
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin

@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sharay-fastapi
-  namespace: sharay
+  name: pogosyan-fastapi
+  namespace: pogosyan
 spec:
   type: ClusterIP
   selector:
-    app: sharay-fastapi
+    app: pogosyan-fastapi
   ports:
     - name: http
       port: 80

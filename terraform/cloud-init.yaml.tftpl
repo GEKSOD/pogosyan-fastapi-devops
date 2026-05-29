@@ -15,7 +15,7 @@ packages:
   - nginx
 
 write_files:
-  - path: /opt/sharay/docker-compose.yml
+  - path: /opt/pogosyan/docker-compose.yml
     permissions: "0644"
     content: |
       services:
@@ -23,11 +23,11 @@ write_files:
           image: ${docker_image}
           restart: unless-stopped
           environment:
-            SHARAY_ENVIRONMENT: terraform
+            POGOSYAN_ENVIRONMENT: terraform
           ports:
             - "8000:8000"
       networks: {}
-  - path: /etc/nginx/sites-available/sharay
+  - path: /etc/nginx/sites-available/pogosyan
     permissions: "0644"
     content: |
       server {
@@ -46,7 +46,7 @@ write_files:
 runcmd:
   - systemctl enable --now docker
   - systemctl enable --now nginx
-  - ln -sf /etc/nginx/sites-available/sharay /etc/nginx/sites-enabled/default
+  - ln -sf /etc/nginx/sites-available/pogosyan /etc/nginx/sites-enabled/default
   - nginx -t
   - systemctl reload nginx
-  - docker compose -f /opt/sharay/docker-compose.yml up -d
+  - docker compose -f /opt/pogosyan/docker-compose.yml up -d

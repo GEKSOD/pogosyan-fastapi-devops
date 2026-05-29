@@ -3,6 +3,6 @@ services:
     image: "{{ docker_image }}"
     restart: unless-stopped
     environment:
-      SHARAY_ENVIRONMENT: "{{ app_environment }}"
+      POGOSYAN_ENVIRONMENT: "{{ app_environment }}"
     ports:
       - "8000:8000"

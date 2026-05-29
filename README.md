@@ -1,4 +1,4 @@
-# SHARAY DevOps FastAPI Project
+# Pogosyan DevOps FastAPI Project
 
 Учебный проект для задания по GitOps, FastAPI, Docker, Kubernetes, Terraform и Ansible.
 
@@ -41,7 +41,7 @@ pytest
 Создайте пустой репозиторий на GitHub и подключите его как `origin`:
 
 ```powershell
-git remote add origin https://github.com/<github-user>/sharay-fastapi-devops.git
+git remote add origin https://github.com/<github-user>/pogosyan-fastapi-devops.git
 git push -u origin main
 ```
 
@@ -62,8 +62,8 @@ docker compose up --build
 Docker Hub username: `geksod`.
 
 ```powershell
-docker build -t geksod/sharay-fastapi:latest .
-docker push geksod/sharay-fastapi:latest
+docker build -t geksod/pogosyan-fastapi:latest .
+docker push geksod/pogosyan-fastapi:latest
 ```
 
 Такой же образ указан в `k8s/deployment.yaml`, `terraform/cloud-init.yaml.tftpl` и `ansible/group_vars/all.yml`.
@@ -74,7 +74,7 @@ docker push geksod/sharay-fastapi:latest
 kubectl apply -f k8s/
 ```
 
-В `k8s/deployment.yaml` указан образ `docker.io/geksod/sharay-fastapi:latest`.
+В `k8s/deployment.yaml` указан образ `docker.io/geksod/pogosyan-fastapi:latest`.
 
 ## Terraform
 
@@ -83,7 +83,6 @@ kubectl apply -f k8s/
 ```hcl
 cloud_id  = "..."
 folder_id = "..."
-subnet_id = "..."
 ssh_public_key_path = "~/.ssh/id_rsa.pub"
 ```
 

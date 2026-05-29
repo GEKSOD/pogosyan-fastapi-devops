@@ -1,3 +1,3 @@
-docker_image: "geksod/sharay-fastapi:latest"
-app_directory: "/opt/sharay"
+docker_image: "geksod/pogosyan-fastapi:latest"
+app_directory: "/opt/pogosyan"
 app_environment: "ansible"

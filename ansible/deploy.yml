@@ -1,4 +1,4 @@
-- name: Deploy SHARAY FastAPI service
+- name: Deploy Pogosyan FastAPI service
   hosts: web
   become: true
 
@@ -39,13 +39,13 @@
     - name: Upload Nginx reverse proxy config
       ansible.builtin.template:
         src: nginx.conf.j2
-        dest: /etc/nginx/sites-available/sharay
+        dest: /etc/nginx/sites-available/pogosyan
         mode: "0644"
       notify: Reload nginx
 
     - name: Enable Nginx site
       ansible.builtin.file:
-        src: /etc/nginx/sites-available/sharay
+        src: /etc/nginx/sites-available/pogosyan
         dest: /etc/nginx/sites-enabled/default
         state: link
         force: true

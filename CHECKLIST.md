@@ -8,7 +8,7 @@
 - [x] Добавлены линтеры и форматеры: `pylint`, `ruff`.
 - [x] Добавлено тестирование: `pytest`.
 - [x] Добавлен GitHub Actions workflow: `.github/workflows/ci.yml`.
-- [ ] Репозиторий запушен на GitHub.
+- [x] Репозиторий запушен на GitHub: `https://github.com/GEKSOD/pogosyan-fastapi-devops`.
 
 Статус: локально выполнено. Для push на GitHub нужен вход в твой аккаунт GitHub или готовый URL репозитория.
 
@@ -22,14 +22,14 @@
   - `/metrics`
 - [x] Добавлены тесты приложения: `tests/test_main.py`.
 - [x] Приложение закоммичено в git.
-- [ ] Коммит запушен на GitHub.
+- [x] Коммит запушен на GitHub.
 
 Статус: FastAPI-часть выполнена локально.
 
 ## 3. Docker / Docker Compose
 
 - [x] Добавлен `Dockerfile` для FastAPI-приложения.
-- [x] Docker-образ приложения собран локально: `sharay-fastapi:local`.
+- [x] Docker-образ приложения собран локально: `pogosyan-fastapi:local`.
 - [x] Контейнер приложения запускался локально.
 - [x] `/health` внутри контейнера проверен, вернул `ok`.
 - [x] Добавлен `docker-compose.yml`.
@@ -43,7 +43,7 @@
 - [x] Образы Prometheus и Grafana скачаны через Docker.
 - [x] Docker Compose файл запушен на GitHub.
 - [x] Dockerfile запушен на GitHub.
-- [x] Docker-образ запушен на Docker Hub: `geksod/sharay-fastapi:latest`.
+- [x] Docker-образ запушен на Docker Hub: `geksod/pogosyan-fastapi:latest`.
 
 Статус: Docker-часть выполнена, образ опубликован на Docker Hub.
 
@@ -55,12 +55,12 @@
 - [x] Добавлен deployment: `k8s/deployment.yaml`.
 - [x] Добавлен ingress: `k8s/ingress.yaml`.
 - [x] В deployment указан pull образа из Docker Hub:
-  `docker.io/geksod/sharay-fastapi:latest`.
+  `docker.io/geksod/pogosyan-fastapi:latest`.
 - [x] YAML-файлы успешно распарсены локальной проверкой.
 - [x] Манифесты запушены на GitHub.
 - [x] Docker Hub username заменен на реальный.
 
-Статус: манифесты готовы. Указан образ `docker.io/geksod/sharay-fastapi:latest`.
+Статус: манифесты готовы. Указан образ `docker.io/geksod/pogosyan-fastapi:latest`.
 
 ## 5. Terraform
 
@@ -95,7 +95,7 @@
 - [x] `pylint app tests`
 - [x] `bandit -r app`
 - [x] `pytest`
-- [x] `docker build -t sharay-fastapi:local .`
+- [x] `docker build -t pogosyan-fastapi:local .`
 - [x] Запуск контейнера и проверка `http://127.0.0.1:8000/health`
 - [x] `docker compose config`
 - [x] Парсинг YAML-файлов
