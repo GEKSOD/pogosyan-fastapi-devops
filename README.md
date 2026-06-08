@@ -257,13 +257,3 @@ Playbook:
 - настраивает Nginx reverse proxy;
 - запускает контейнер с FastAPI-сервисом.
 
-## Быстрая сверка задания
-
-- Репозиторий GitHub: выполнено.
-- FastAPI-сервис: выполнено.
-- Dockerfile и Docker Compose: выполнено.
-- Образ в Docker Hub: выполнено.
-- Kubernetes-манифесты для minikube: подготовлены.
-- Terraform для Yandex Cloud VM: подготовлен.
-- Ansible для деплоя на VM: подготовлен.
-- README.md: выполнено.
