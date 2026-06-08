@@ -1,24 +1,89 @@
 # Pogosyan DevOps FastAPI Project
 
-Учебный проект для задания по GitOps, FastAPI, Docker, Kubernetes, Terraform и Ansible.
+Учебный DevOps-проект: FastAPI-сервис, CI-проверки, Docker-образ, Docker Compose с мониторингом, Kubernetes-манифесты, Terraform для Yandex Cloud и Ansible для деплоя на VM.
 
-## Что внутри
+## Ссылки
 
-- FastAPI-приложение с health-check и метриками Prometheus.
-- Проверки качества: `ruff`, `pylint`, `bandit`, `pytest`.
-- Dockerfile для приложения.
-- `docker-compose.yml` с приложением, Prometheus и Grafana.
-- Kubernetes-манифесты: namespace, deployment, service, ingress.
-- Terraform-манифесты для виртуальной машины с веб-сервером.
-- Ansible playbook для доставки и запуска сервиса на созданном сервере.
-- GitHub Actions workflow для CI.
+- GitHub: <https://github.com/GEKSOD/pogosyan-fastapi-devops>
+- Docker Hub: <https://hub.docker.com/r/geksod/pogosyan-fastapi>
+- Docker image: `geksod/pogosyan-fastapi:latest`
 
-## Локальный запуск
+## Состав проекта
+
+- `app/` - FastAPI-приложение.
+- `tests/` - pytest-тесты.
+- `.github/workflows/ci.yml` - GitHub Actions pipeline.
+- `Dockerfile` - сборка контейнера приложения.
+- `docker-compose.yml` - приложение, Prometheus и Grafana.
+- `monitoring/` - конфигурация Prometheus и Grafana datasource.
+- `k8s/` - namespace, deployment, service, ingress для minikube/k8s.
+- `terraform/` - создание VM, сети, подсети и security group в Yandex Cloud.
+- `ansible/` - доставка compose/nginx-конфигурации на сервер.
+
+## Требования
+
+- Python 3.11+
+- Docker Desktop или Docker Engine
+- Git
+- `kubectl` и `minikube` для проверки Kubernetes-части
+- Terraform 1.6+
+- Yandex Cloud CLI или переменная окружения `YC_TOKEN`
+- Ansible и коллекция `community.docker`
+
+## 1. GitHub, SAST, линтеры и тесты
+
+В проекте настроены:
+
+- SAST: `bandit`
+- Линтеры и форматеры: `ruff`, `pylint`
+- Тесты: `pytest`
+- CI: GitHub Actions
+
+Локальный запуск проверок:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements-dev.txt
+.\.venv\Scripts\ruff check .
+.\.venv\Scripts\pylint app tests
+.\.venv\Scripts\bandit -r app
+.\.venv\Scripts\pytest
+```
+
+## 2. FastAPI-сервис
+
+Локальный запуск:
+
+```powershell
 .\.venv\Scripts\uvicorn app.main:app --reload
+```
+
+Проверка:
+
+```powershell
+curl http://127.0.0.1:8000/
+curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8000/metrics
+```
+
+Основные endpoints:
+
+- `/` - информация о сервисе
+- `/health` - health-check
+- `/metrics` - Prometheus metrics
+
+## 3. Docker
+
+Сборка локального образа:
+
+```powershell
+docker build -t pogosyan-fastapi:local .
+```
+
+Запуск контейнера:
+
+```powershell
+docker run --rm -p 8000:8000 pogosyan-fastapi:local
 ```
 
 Проверка:
@@ -27,25 +92,30 @@ python -m venv .venv
 curl http://127.0.0.1:8000/health
 ```
 
-## Проверки
+## 4. Docker Hub
 
-```powershell
-ruff check .
-pylint app tests
-bandit -r app
-pytest
+Публикуемый образ:
+
+```text
+geksod/pogosyan-fastapi:latest
 ```
 
-## Публикация на GitHub
-
-Создайте пустой репозиторий на GitHub и подключите его как `origin`:
+Команды сборки и публикации:
 
 ```powershell
-git remote add origin https://github.com/<github-user>/pogosyan-fastapi-devops.git
-git push -u origin main
+docker build -t geksod/pogosyan-fastapi:latest .
+docker push geksod/pogosyan-fastapi:latest
 ```
 
-## Docker Compose
+Проверка загрузки:
+
+```powershell
+docker pull geksod/pogosyan-fastapi:latest
+```
+
+## 5. Docker Compose, Prometheus и Grafana
+
+Запуск:
 
 ```powershell
 docker compose up --build
@@ -55,35 +125,85 @@ docker compose up --build
 
 - FastAPI: <http://localhost:8000>
 - Prometheus: <http://localhost:9090>
-- Grafana: <http://localhost:3000> (`admin` / `admin`)
+- Grafana: <http://localhost:3000>
 
-## Docker Hub
+Данные Grafana по умолчанию:
 
-Docker Hub username: `geksod`.
-
-```powershell
-docker build -t geksod/pogosyan-fastapi:latest .
-docker push geksod/pogosyan-fastapi:latest
+```text
+admin / admin
 ```
 
-Такой же образ указан в `k8s/deployment.yaml`, `terraform/cloud-init.yaml.tftpl` и `ansible/group_vars/all.yml`.
+Prometheus забирает метрики приложения с `/metrics`.
 
-## Kubernetes
+## 6. Minikube / Kubernetes
+
+Манифесты находятся в `k8s/`:
+
+- `namespace.yaml`
+- `deployment.yaml`
+- `service.yaml`
+- `ingress.yaml`
+
+В deployment используется образ из Docker Hub:
+
+```text
+docker.io/geksod/pogosyan-fastapi:latest
+```
+
+Пример запуска в minikube:
 
 ```powershell
+minikube start
+minikube addons enable ingress
 kubectl apply -f k8s/
+kubectl get all -n pogosyan
+kubectl get ingress -n pogosyan
 ```
 
-В `k8s/deployment.yaml` указан образ `docker.io/geksod/pogosyan-fastapi:latest`.
+Для локальной проверки ingress добавьте адрес minikube в hosts-файл:
 
-## Terraform
+```powershell
+minikube ip
+```
 
-Пример рассчитан на Yandex Cloud. Создайте `terraform/terraform.tfvars`:
+Пример записи:
+
+```text
+<MINIKUBE_IP> pogosyan-fastapi.local
+```
+
+Проверка:
+
+```powershell
+curl http://pogosyan-fastapi.local/health
+```
+
+Если ingress не нужен, можно проверить сервис через port-forward:
+
+```powershell
+kubectl port-forward -n pogosyan service/pogosyan-fastapi 8000:80
+curl http://127.0.0.1:8000/health
+```
+
+## 7. Yandex Cloud через Terraform
+
+Terraform создаёт:
+
+- VPC network
+- subnet
+- security group для портов `22`, `80`, `8000`
+- VM `pogosyan-fastapi-web`
+- Nginx reverse proxy
+- Docker-контейнер с образом `geksod/pogosyan-fastapi:latest`
+
+Подготовьте `terraform/terraform.tfvars`:
 
 ```hcl
-cloud_id  = "..."
-folder_id = "..."
+cloud_id            = "<YANDEX_CLOUD_ID>"
+folder_id           = "<YANDEX_FOLDER_ID>"
+zone                = "ru-central1-a"
 ssh_public_key_path = "~/.ssh/id_rsa.pub"
+docker_image        = "geksod/pogosyan-fastapi:latest"
 ```
 
 Запуск:
@@ -91,22 +211,59 @@ ssh_public_key_path = "~/.ssh/id_rsa.pub"
 ```powershell
 cd terraform
 terraform init
+terraform plan
 terraform apply
 ```
 
-Terraform создаст VM и выведет публичный IP.
+После выполнения Terraform выведет:
 
-## Ansible
+- `web_public_ip`
+- `service_url`
 
-После Terraform заполните `ansible/inventory.ini`:
+Проверка:
+
+```powershell
+curl http://<WEB_PUBLIC_IP>/health
+```
+
+Удаление ресурсов после проверки:
+
+```powershell
+terraform destroy
+```
+
+## 8. Ansible
+
+После создания VM через Terraform заполните inventory:
 
 ```ini
 [web]
-<PUBLIC_IP> ansible_user=ubuntu
+<WEB_PUBLIC_IP> ansible_user=ubuntu ansible_ssh_private_key_file=../.ssh/pogosyan_vm
 ```
 
-Запуск:
+Файл можно сохранить как `ansible/inventory.ini`.
+
+Запуск playbook:
 
 ```powershell
+ansible-galaxy collection install -r ansible/requirements.yml
 ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
 ```
+
+Playbook:
+
+- устанавливает Docker и Nginx;
+- копирует Docker Compose файл на сервер;
+- настраивает Nginx reverse proxy;
+- запускает контейнер с FastAPI-сервисом.
+
+## Быстрая сверка задания
+
+- Репозиторий GitHub: выполнено.
+- FastAPI-сервис: выполнено.
+- Dockerfile и Docker Compose: выполнено.
+- Образ в Docker Hub: выполнено.
+- Kubernetes-манифесты для minikube: подготовлены.
+- Terraform для Yandex Cloud VM: подготовлен.
+- Ansible для деплоя на VM: подготовлен.
+- README.md: выполнено.

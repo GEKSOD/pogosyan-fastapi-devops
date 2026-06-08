@@ -1,115 +1,56 @@
 # Чек-лист сверки с заданием
 
-## 1. GitOps
+## 1. Репозиторий GitHub
 
-- [x] Создан локальный git-репозиторий.
-- [x] Создан коммит с проектом: `f04c2aa Initial DevOps FastAPI project`.
-- [x] Добавлен SAST: `bandit`.
-- [x] Добавлены линтеры и форматеры: `pylint`, `ruff`.
-- [x] Добавлено тестирование: `pytest`.
-- [x] Добавлен GitHub Actions workflow: `.github/workflows/ci.yml`.
-- [x] Репозиторий запушен на GitHub: `https://github.com/GEKSOD/pogosyan-fastapi-devops`.
+- [x] Репозиторий создан и опубликован на GitHub.
+- [x] GitHub URL: `https://github.com/GEKSOD/pogosyan-fastapi-devops`.
+- [x] CI настроен в `.github/workflows/ci.yml`.
+- [x] SAST: `bandit`.
+- [x] Линтеры и форматеры: `ruff`, `pylint`.
+- [x] Тесты: `pytest`.
 
-Статус: локально выполнено. Для push на GitHub нужен вход в твой аккаунт GitHub или готовый URL репозитория.
+## 2. Сервис Flask/FastAPI
 
-## 2. Flask/FastAPI
+- [x] Реализован FastAPI-сервис.
+- [x] Основной файл: `app/main.py`.
+- [x] Endpoints: `/`, `/health`, `/metrics`.
+- [x] Тесты: `tests/test_main.py`.
 
-- [x] В репозитории создано FastAPI-приложение.
-- [x] Основной файл приложения: `app/main.py`.
-- [x] Добавлены endpoints:
-  - `/`
-  - `/health`
-  - `/metrics`
-- [x] Добавлены тесты приложения: `tests/test_main.py`.
-- [x] Приложение закоммичено в git.
-- [x] Коммит запушен на GitHub.
+## 3. Docker
 
-Статус: FastAPI-часть выполнена локально.
+- [x] Добавлен `Dockerfile`.
+- [x] Приложение собирается в Docker-образ.
+- [x] Локальный тег для проверки: `pogosyan-fastapi:local`.
 
-## 3. Docker / Docker Compose
+## 4. Docker Hub
 
-- [x] Добавлен `Dockerfile` для FastAPI-приложения.
-- [x] Docker-образ приложения собран локально: `pogosyan-fastapi:local`.
-- [x] Контейнер приложения запускался локально.
-- [x] `/health` внутри контейнера проверен, вернул `ok`.
-- [x] Добавлен `docker-compose.yml`.
-- [x] В `docker-compose.yml` добавлены контейнеры:
-  - FastAPI-приложение
-  - Prometheus
-  - Grafana
-- [x] Добавлен конфиг Prometheus: `monitoring/prometheus/prometheus.yml`.
-- [x] Добавлен datasource Prometheus для Grafana: `monitoring/grafana/provisioning/datasources/prometheus.yml`.
-- [x] `docker compose config` успешно прошел.
-- [x] Образы Prometheus и Grafana скачаны через Docker.
-- [x] Docker Compose файл запушен на GitHub.
-- [x] Dockerfile запушен на GitHub.
-- [x] Docker-образ запушен на Docker Hub: `geksod/pogosyan-fastapi:latest`.
+- [x] Образ опубликован на Docker Hub.
+- [x] Docker image: `geksod/pogosyan-fastapi:latest`.
+- [x] Docker Hub URL: `https://hub.docker.com/r/geksod/pogosyan-fastapi`.
 
-Статус: Docker-часть выполнена, образ опубликован на Docker Hub.
+## 5. Yandex Cloud через Terraform
 
-## 4. Kubernetes
+- [x] Terraform-манифесты подготовлены.
+- [x] Terraform создаёт VM, сеть, подсеть и security group.
+- [x] Через `cloud-init` устанавливаются Docker и Nginx.
+- [x] На VM запускается образ `geksod/pogosyan-fastapi:latest`.
+- [ ] `terraform apply` нужно выполнить в Yandex Cloud для фактического создания VM.
 
-- [x] Подготовлены k8s-манифесты.
-- [x] Добавлен namespace: `k8s/namespace.yaml`.
-- [x] Добавлен service: `k8s/service.yaml`.
-- [x] Добавлен deployment: `k8s/deployment.yaml`.
-- [x] Добавлен ingress: `k8s/ingress.yaml`.
-- [x] В deployment указан pull образа из Docker Hub:
-  `docker.io/geksod/pogosyan-fastapi:latest`.
-- [x] YAML-файлы успешно распарсены локальной проверкой.
-- [x] Манифесты запушены на GitHub.
-- [x] Docker Hub username заменен на реальный.
+## 6. Minikube / Kubernetes
 
-Статус: манифесты готовы. Указан образ `docker.io/geksod/pogosyan-fastapi:latest`.
+- [x] Namespace: `k8s/namespace.yaml`.
+- [x] Deployment: `k8s/deployment.yaml`.
+- [x] Service: `k8s/service.yaml`.
+- [x] Ingress: `k8s/ingress.yaml`.
+- [x] Pod тянет образ из Docker Hub: `docker.io/geksod/pogosyan-fastapi:latest`.
+- [ ] `kubectl apply -f k8s/` нужно выполнить в minikube для фактической развёртки.
 
-## 5. Terraform
+## 7. README.md
 
-- [x] Подготовлены Terraform-манифесты.
-- [x] Добавлен provider Yandex Cloud: `terraform/main.tf`.
-- [x] Добавлено создание виртуальной машины.
-- [x] Добавлен web-сервер Nginx через cloud-init.
-- [x] Добавлен запуск Docker-контейнера сервиса на VM через cloud-init.
-- [x] Добавлены переменные: `terraform/variables.tf`.
-- [x] Добавлены output-значения: `terraform/outputs.tf`.
-- [ ] Terraform применен в облаке.
-
-Статус: Terraform-файлы готовы. Применение требует реальные `cloud_id`, `folder_id`, `subnet_id`, SSH key и установленный Terraform CLI.
-
-## 6. Ansible
-
-- [x] Подготовлен Ansible playbook: `ansible/deploy.yml`.
-- [x] Добавлен пример inventory: `ansible/inventory.example.ini`.
-- [x] Добавлены переменные деплоя: `ansible/group_vars/all.yml`.
-- [x] Добавлен шаблон Docker Compose для сервера.
-- [x] Добавлен шаблон Nginx reverse proxy.
-- [x] Playbook устанавливает Docker и Nginx.
-- [x] Playbook доставляет compose-файл на сервер.
-- [x] Playbook запускает контейнер сервиса на сервере.
-- [ ] Ansible playbook выполнен на сервере, созданном Terraform.
-
-Статус: Ansible-часть готова. Выполнение требует IP сервера после Terraform и доступ по SSH.
-
-## Проверки, которые уже выполнены
-
-- [x] `ruff check .`
-- [x] `pylint app tests`
-- [x] `bandit -r app`
-- [x] `pytest`
-- [x] `docker build -t pogosyan-fastapi:local .`
-- [x] Запуск контейнера и проверка `http://127.0.0.1:8000/health`
-- [x] `docker compose config`
-- [x] Парсинг YAML-файлов
-
-## Что осталось сделать для полной сдачи
-
-- [x] Войти в GitHub.
-- [x] Создать GitHub-репозиторий.
-- [x] Добавить remote `origin`.
-- [x] Запушить ветку `main`.
-- [x] Войти в Docker Hub.
-- [x] Заменить `your-dockerhub-username` на реальный username.
-- [x] Собрать Docker-образ с Docker Hub тегом.
-- [x] Запушить Docker-образ на Docker Hub.
-- [x] Обновить k8s/Terraform/Ansible ссылку на реальный Docker Hub image.
-- [ ] При необходимости применить Terraform.
-- [ ] При необходимости выполнить Ansible на созданной VM.
+- [x] README описывает локальный запуск.
+- [x] README описывает проверки качества.
+- [x] README описывает Docker и Docker Hub.
+- [x] README описывает Docker Compose, Prometheus и Grafana.
+- [x] README описывает minikube/Kubernetes.
+- [x] README описывает Terraform для Yandex Cloud.
+- [x] README описывает Ansible.
